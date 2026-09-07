@@ -1,0 +1,270 @@
+@import "tailwindcss";
+
+:root {
+  --bone-50: #f4eee0;
+  --bone-100: #e9dfc5;
+  --bone-200: #d9c99f;
+
+  --ink-900: #201c16;
+  --ink-700: #3a352b;
+  --ink-500: #6b6252;
+  --ink-300: #a49a84;
+
+  --oxblood-600: #7a2420;
+  --oxblood-700: #5c1a17;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --color-bone-50: var(--bone-50);
+  --color-bone-100: var(--bone-100);
+  --color-bone-200: var(--bone-200);
+
+  --color-ink-900: var(--ink-900);
+  --color-ink-700: var(--ink-700);
+  --color-ink-500: var(--ink-500);
+  --color-ink-300: var(--ink-300);
+
+  --color-oxblood-600: var(--oxblood-600);
+  --color-oxblood-700: var(--oxblood-700);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-stamp: var(--font-stamp);
+}
+
+/* Layered (not a plain top-level rule) so it acts as a true default: an
+   explicit border-{color} utility, emitted in Tailwind's own utilities
+   layer, still wins. An unlayered `* { border-color: ... }` here would
+   unconditionally beat every border-color utility on the page regardless
+   of specificity, since any unlayered style outranks every layered one. */
+@layer base {
+  * {
+    border-color: var(--ink-300);
+  }
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background: var(--bone-50);
+  color: var(--ink-900);
+  font-family: var(--font-body), ui-serif, Georgia, serif;
+}
+
+::selection {
+  background: var(--oxblood-600);
+  color: var(--bone-50);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bone-100);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ink-300);
+  border: 3px solid var(--bone-100);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--oxblood-600);
+}
+html {
+  scrollbar-color: var(--ink-300) var(--bone-100);
+}
+
+:focus-visible {
+  outline: 2px solid var(--oxblood-600);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+a {
+  text-underline-offset: 0.2em;
+}
+
+.font-display {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+}
+
+.font-stamp {
+  font-family: var(--font-stamp), ui-monospace, monospace;
+}
+
+/* ---------------------------------------------------------------- */
+/* Ledger paper: ruled fibrous stock every card and panel is cut from. */
+/* ---------------------------------------------------------------- */
+
+.ledger-card {
+  position: relative;
+  background: var(--bone-100);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgb(32 28 22 / 0.05) 0,
+    rgb(32 28 22 / 0.05) 1px,
+    transparent 1px,
+    transparent 28px
+  );
+  border: 1px solid var(--ink-300);
+  border-radius: 4px;
+  box-shadow: 0 10px 26px -18px rgb(32 28 22 / 0.5);
+}
+
+/* Rubber ink stamp — a hand-pressed circular mark, never a filled pill. */
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-stamp), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--oxblood-600);
+  background: transparent;
+  border: 2px solid var(--oxblood-600);
+  border-radius: 999px;
+  padding: 0.5em 0.85em;
+  transform: rotate(-4deg);
+  mix-blend-mode: multiply;
+}
+.stamp-ink {
+  color: var(--ink-900);
+  border-color: var(--ink-900);
+}
+
+/* Order-ticket perforation: a receipt tear-line, used inside cards and   */
+/* under headings — a structural device, not a section-seam replacement  */
+/* for organic torn paper (that motif belongs to the Pit Room world).    */
+.perf-line {
+  display: block;
+  height: 12px;
+  background-color: var(--ink-500);
+  -webkit-mask-image: radial-gradient(circle 5px at 6px 6px, transparent 5px, black 5.5px);
+  mask-image: radial-gradient(circle 5px at 6px 6px, transparent 5px, black 5.5px);
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: 14px 12px;
+  mask-size: 14px 12px;
+}
+.perf-line-thin {
+  height: 8px;
+  -webkit-mask-image: radial-gradient(circle 3px at 4px 4px, transparent 3px, black 3.5px);
+  mask-image: radial-gradient(circle 3px at 4px 4px, transparent 3px, black 3.5px);
+  -webkit-mask-size: 9px 8px;
+  mask-size: 9px 8px;
+}
+
+/* Stamped ink CTA: a solid ledger-ink button pressed onto the page. */
+.cta-stamp {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-display), ui-serif, serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--bone-50);
+  background: var(--oxblood-600);
+  border: none;
+  border-radius: 3px;
+  padding: 0.75em 1.6em;
+  box-shadow: 0 8px 18px -8px rgb(32 28 22 / 0.5), 0 2px 4px rgb(32 28 22 / 0.3);
+  transition: transform 160ms var(--ease-out), box-shadow 160ms var(--ease-out), background-color 160ms var(--ease-out);
+}
+.cta-stamp:hover {
+  background: var(--oxblood-700);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px -10px rgb(32 28 22 / 0.55), 0 4px 8px rgb(32 28 22 / 0.35);
+}
+.cta-stamp:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 8px -3px rgb(32 28 22 / 0.5);
+}
+
+.link-quiet {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  color: var(--ink-700);
+  font-weight: 700;
+  border-bottom: 2px solid var(--ink-300);
+  padding-bottom: 0.1em;
+  transition: border-color 200ms ease, color 200ms ease;
+}
+.link-quiet:hover {
+  color: var(--oxblood-600);
+  border-color: var(--oxblood-600);
+}
+
+/* ---------------------------------------------------------------- */
+/* Scroll reveal: a simple settle, motion stays out of the way of    */
+/* the cut-chart illustrations, which carry the signature motion.    */
+/* ---------------------------------------------------------------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 520ms var(--ease-out), transform 520ms var(--ease-out);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger > * {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 460ms var(--ease-out), transform 460ms var(--ease-out);
+}
+.stagger.is-visible > *:nth-child(1) { transition-delay: 0ms; }
+.stagger.is-visible > *:nth-child(2) { transition-delay: 110ms; }
+.stagger.is-visible > *:nth-child(3) { transition-delay: 220ms; }
+.stagger.is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Cut-chart illustrations draw themselves on as they enter. */
+.draw-in path,
+.draw-in line,
+.draw-in polyline {
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  transition: stroke-dashoffset 1500ms var(--ease-out);
+}
+.is-visible .draw-in path,
+.is-visible .draw-in line,
+.is-visible .draw-in polyline,
+.draw-in.is-visible path,
+.draw-in.is-visible line,
+.draw-in.is-visible polyline {
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .stagger > *,
+  .cta-stamp,
+  .draw-in path,
+  .draw-in line,
+  .draw-in polyline {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+  }
+  .reveal,
+  .stagger > * {
+    opacity: 1;
+    transform: none;
+  }
+  .draw-in path,
+  .draw-in line,
+  .draw-in polyline {
+    stroke-dashoffset: 0;
+  }
+}
